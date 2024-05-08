@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PythonGeeks Weather Alert</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: azure;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: grey;
+        }
+
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
+            color: grey;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Python Weather Desktop Notifier</h1>
+        <h1>iam created Purushotham cowdary</h1>
+        <form id="weatherForm">
+            <label for="city">Enter the Location:</label>
+            <input type="text" id="city" name="city" required>
+            <button type="submit">Get Notification</button>
+        </form>
+    </div>
+
+    <script>
+    document.getElementById("weatherForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+        var cityName = document.getElementById("city").value;
+        var url = "http://api.openweathermap.org/data/2.5/weather?appid=d850f7f52bf19300a9eb4b0aa6b80f0d&q=" + cityName;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                var temp = data.main.temp - 273; // Convert temperature from Kelvin to Celsius
+                var pressure = data.main.pressure;
+                var humidity = data.main.humidity;
+                var description = data.weather[0].description;
+                var info = "Here is the weather description of " + cityName + ":<br>" +
+                           "Temperature = " + temp.toFixed(2) + "°C<br>" +
+                           "Atmospheric Pressure = " + pressure + "hPa<br>" +
+                           "Humidity = " + humidity + "%<br>" +
+                           "Description of the weather= " + description;
+                // Display notification
+                alert(info);
+            })
+            .catch(error => {
+                alert("Error: " + error.message); // Show error message if request fails
+            });
+    });
+    </script>
+
+</body>
+</html>
